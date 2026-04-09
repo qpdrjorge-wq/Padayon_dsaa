@@ -186,20 +186,20 @@ public class PathLoader {
     public void loadChapter2Path() {
         pathPoints.clear();
 
-        addPoint(6, 13);
-        addPoint(8, 13);
-        addPoint(10, 13);
-        addPoint(12, 13);
-        addScenarioPoint(14, 13, 3); //addScenario
+        addPoint(6, 14);
+        addPoint(8, 14);
+        addPoint(10, 14);
+        addPoint(12, 14);
+        addScenarioPoint(14, 14, 3); //addScenario
     }
 
     public void c2AddBranch_Up() {
-        addPoint(14,10);
-        addBuffPoint(17,10, new Buff(10, 15, 0, 4, "Maam Janice is proud of your decision, keep it up \n Pinasa ka ni maam Janice sa Project\n +10 happiness, +15 reputation for 4 turns"));
-        addPoint(19,10);
-        addPoint(21,10);
-        addPoint(23,10);
-        addPoint(25,10);
+        addPoint(14,11);
+        addBuffPoint(17,11, new Buff(10, 15, 0, 4, "Maam Janice is proud of your decision, keep it up \n Pinasa ka ni maam Janice sa Project\n +10 happiness, +15 reputation for 4 turns"));
+        addPoint(19,11);
+        addPoint(21,11);
+        addPoint(23,11);
+        addPoint(25,11);
         c2SharedPath1();
     }
 
@@ -214,10 +214,10 @@ public class PathLoader {
     }
 
     private void c2SharedPath1() {
-        addPoint(25,13);
-        addPoint(28,13);
-        addPoint(30,13);
-        addPoint(32,13);
+        addPoint(25,14);
+        addPoint(28,14);
+        addPoint(30,14);
+        addPoint(32,14);
         addPoint(32,17);
         addPoint(35,17);
         addPoint(37,17);
@@ -225,10 +225,10 @@ public class PathLoader {
     }
 
     public void c2AddBranch_Up2() {
-        addPoint(39,13);
-        addPoint(42,13);
-        addPoint(44,13);
-        addPoint(46,13);
+        addPoint(39,14);
+        addPoint(42,14);
+        addPoint(44,14);
+        addPoint(46,14);
         c2SharedPath2();
     }
 
@@ -248,14 +248,14 @@ public class PathLoader {
         addPoint(55,17);
         addPoint(57,17);
         addPoint(59,17);
-        addPoint(59,13);
-        addPoint(62,13);
-        addPoint(64,13);
-        addPoint(64,10);
-        addPoint(67,10);
-        addPoint(69,10);
-        addPoint(69,13);
-        addPoint(72,13);
+        addPoint(59,14);
+        addPoint(62,14);
+        addPoint(64,14);
+        addPoint(64,11);
+        addPoint(67,11);
+        addPoint(69,11);
+        addPoint(69,14);
+        addPoint(72,14);
         addPoint(72,17);
         addPoint(72,19);
         addPoint(72,21);
