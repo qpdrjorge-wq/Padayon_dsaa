@@ -20,12 +20,12 @@ public class PathLoader {
         pathPoints.clear();
 
         addPoint(16, 39); // Start
-        addDialoguePoint(16, 36, 0);
-        addPoint(18, 36);
+        addPoint(16, 36);
+        addDialoguePoint(18, 36, 1);
         addPoint(21, 36);
         addPoint(21, 34);
         addPoint(21, 31);
-        addPoint(23, 31);
+        addPropertyPoint(23, 31);
         addScenarioPoint(26, 31, 0);//choice based
     }
 
@@ -37,8 +37,8 @@ public class PathLoader {
         addPoint(25, 23);
         addPoint(28, 23);
         addPoint(28, 20);
-        addPoint(30, 20);
-        addPoint(32, 20);
+        addDialoguePoint(30, 20, 0);
+        addBuffPoint(32, 20, new Buff(10, 15, 10, 3, "Your father is happy and proud of you for bringing his food. \nYou received father's respect buff.\n +10 happiness, +15 happiness, +15 money for 3 turns"));
         addPoint(35, 20);
         sharedPath1();
     }
@@ -46,9 +46,9 @@ public class PathLoader {
     public void addBranch1_Down() {
         addPoint(26, 34);
         addPoint(28, 34);
-        addPoint(30, 34);
+        addBuffPoint(30, 34, new Buff(-10, -5, 0, 5, "Your mother is fuming in anger.\n You received mother's wrath debuff.\n -10 happiness, -5 reputation for 5 turns"));
         addPoint(33, 34);
-        addPoint(33,31);
+        addCursePoint(33,31);
         addPoint(35, 31);
         addPoint(38, 31);
         addPoint(38, 29);
@@ -111,7 +111,7 @@ public class PathLoader {
         addPoint(66,31);
         addPoint(63,31);
         addPoint(63,29);
-        addPoint(63,29);
+        addPoint(63,27);
         addPoint(63,24);
         addScenarioPoint(60, 24, 2);
     }
@@ -169,6 +169,13 @@ public class PathLoader {
     public void addBuffPoint(int col, int row, Buff buff){pathPoints.add(new BoardNode(col, row, buff));}
     public void addScenarioPoint(int col, int row, int scenarioIndex){pathPoints.add(new BoardNode(col, row, scenarioIndex, true));}
 
+    public void addPropertyPoint(int col, int row) {
+        pathPoints.add(BoardNode.propertyNode(col, row));
+    }
+    public void addCursePoint(int col, int row){
+        pathPoints.add(BoardNode.curseNode(col, row));
+    }
+
     public BoardNode getCurrentNode(int index) {
         if (index >= 0 && index < pathPoints.size()) {
             return pathPoints.get(index);
@@ -183,12 +190,12 @@ public class PathLoader {
         addPoint(8, 13);
         addPoint(10, 13);
         addPoint(12, 13);
-        addScenarioPoint(14, 13, 0); //addScenario
+        addScenarioPoint(14, 13, 3); //addScenario
     }
 
     public void c2AddBranch_Up() {
         addPoint(14,10);
-        addPoint(17,10);
+        addBuffPoint(17,10, new Buff(10, 15, 0, 4, "Maam Janice is proud of your decision, keep it up \n Pinasa ka ni maam Janice sa Project\n +10 happiness, +15 reputation for 4 turns"));
         addPoint(19,10);
         addPoint(21,10);
         addPoint(23,10);
@@ -353,4 +360,185 @@ public class PathLoader {
 
 
 
+    //Chapter 3
+    public void loadChapter3Path() {
+        pathPoints.clear();
+        addPoint(13, 40); // Start
+        addPoint(13, 43);
+        addPoint(16, 43);
+        addCursePoint(18, 43);
+        addPoint(20, 43);
+        addPropertyPoint(22, 43);
+        addPoint(22, 40);
+        addPoint(22, 38);
+        addCursePoint(25, 38);
+        addPoint(27, 38);
+        addCursePoint(29, 38);
+        addScenarioPoint(29, 36, 4); //scenario point
+    }
+
+    public void c3AddBranch_Left1() {
+        addPoint(26, 35);
+        addPropertyPoint(24, 35);
+        addPoint(24, 32);
+        addCursePoint(21, 32);
+        addPoint(21, 29);
+        addPoint(18, 26);
+        addPoint(15, 26);
+        addPropertyPoint(15, 23);
+        addCursePoint(18, 23);
+        addPoint(25, 38);
+        c3SharedPath1();
+    }
+
+    public void c3AddBranch_Right1() {
+        addPoint(32, 35);
+        addPoint(34, 35);
+        addPoint(34, 32);
+        addPropertyPoint(31, 31);
+        addCursePoint(31, 29);
+        addPoint(28, 29);
+        addPoint(28, 26);
+        addPropertyPoint(25, 26);
+        addPoint(23, 26);
+        addCursePoint(23, 23);
+        c3SharedPath1();
+    }
+
+    private void c3SharedPath1() {
+        addPropertyPoint(20, 23);
+        addPoint(20, 20);
+        addPoint(23, 20);
+        addCursePoint(25, 20);
+        addPoint(27, 20);
+        addPropertyPoint(29, 20);
+        addPoint(29, 17);
+        addPropertyPoint(29, 15);
+        addPoint(32, 15);
+        addCursePoint(34, 15);
+        addPoint(34, 12);
+        addPoint(37, 12);
+        addPropertyPoint(39, 12);
+        addPoint(39, 15);
+        addPoint(42, 15);
+        addCursePoint(44, 15);
+        addPoint(46, 15);
+        addPoint(48, 15);
+        addPropertyPoint(50, 15);
+        addScenarioPoint(50, 18, 1);//adScenario
+    }
+
+    public void c3AddBranch_Right2() {
+        addPoint(53, 18);
+        addPoint(53, 21);
+        addPoint(56, 21);
+        addCursePoint(58, 21);
+        addPoint(58, 24);
+        addPropertyPoint(55, 24);
+        addPoint(53, 24);
+        addPropertyPoint(53, 27);
+        addPoint(51, 27);
+        c3SharedPath2();
+    }
+
+    public void c3AddBranch_Left2() {
+        addPoint(47, 18);
+        addCursePoint(45, 18);
+        addPoint(45, 21);
+        addPoint(42, 21);
+        addCursePoint(40, 21);
+        addPoint(40, 24);
+        addPropertyPoint(43, 24);
+        addPoint(45, 24);
+        addPoint(45, 27);
+        c3SharedPath2();
+    }
+
+    private void c3SharedPath2() {
+        addPoint(48, 27);//wedding sana
+        addPoint(48, 30);
+        addPoint(51, 30);
+        addPoint(53, 30);
+        addPoint(55, 30);//pink
+        addPoint(55, 33);
+        addPoint(55, 35);
+        addScenarioPoint(58, 35, 0);//ADD SCENARIO
+    }
+
+    public void c3AddBranch_Up1() {
+        addPoint(58, 32);
+        addPoint(58, 30);
+        addCursePoint(61, 30);
+        addPoint(61, 27);
+        addPropertyPoint(64, 27);
+        addPoint(64, 30);
+        addPoint(67, 30);
+        addCursePoint(69, 30);
+        addPoint(71, 30);
+        c3SharedPath3();
+    }
+
+    public void c3AddBranch_Down1() {
+        addPoint(61, 35);
+        addPoint(61, 38);
+        addPoint(64, 38);//pink
+        addPoint(66, 38);
+        addPoint(66, 35);
+        addPropertyPoint(66, 33);
+        addPoint(69, 33);
+        c3SharedPath3();
+    }
+
+    private void c3SharedPath3() {
+        addPoint(71,33); //pink
+        addPoint(71, 36);
+        addPoint(71, 38);
+        addCursePoint(71, 40);
+        addPoint(71, 42);
+        addPoint(68, 42);//pink
+        addPoint(66, 42);
+        addCursePoint(66, 45);
+        addPoint(63, 45);
+        addPropertyPoint(61, 45);
+        addPoint(59, 45);
+        addScenarioPoint(57, 45, 3); //add scenario
+    }
+
+    public void c3AddBranch_Up2() {
+        addPoint(57, 42);
+        addPoint(54, 42);
+        addCursePoint(54, 39);
+        addPoint(51, 39);//pink
+        addPoint(49, 39);
+        addPoint(49, 42);//pink
+        addPoint(46, 42);
+        c3SharedPath4();
+    }
+
+
+    public void c3AddBranch_Down2() {
+        addPoint(57, 48);
+        addCursePoint(54, 48);
+        addPropertyPoint(54, 51);
+        addPoint(51, 51);
+        addPoint(49, 51);//pink
+        addPoint(49, 48);
+        addPoint(46, 48);
+        c3SharedPath4();
+    }
+
+
+    private void c3SharedPath4() {
+        addPropertyPoint(46,45);
+        addPoint(43,45);//pink
+        addPoint(41, 45);
+        addPoint(41, 48);//endpoint
+    }
+    public void loadChapter4Path() {
+        pathPoints.clear();
+        addPoint(85, 7); // Start
+        addDialoguePoint(8, 31, 0);
+        addPoint(11, 31);
+        addPoint(13, 31);
+    }
 }
