@@ -10,9 +10,7 @@ import java.io.IOException;
 
 public class NPC_Jumpscare extends Entity {
 
-    /** 60 frames = 1 second at 60 fps */
     public static final int JUMPSCARE_DURATION = 60;
-
     private static final float FLASH_ALPHA = 0.55f;
 
     public int jumpscareTimer = 0;
@@ -50,7 +48,6 @@ public class NPC_Jumpscare extends Entity {
 
     public void setDialogue() {
 
-        // Sequence 0: opener — lulls the player in with humor
         DialogueSequence opener = new DialogueSequence("opener",
                 new DialogueLine("Psst. Hoy. Ikaw. Oo, ikaw."),
                 new DialogueLine("Bagong empleyado ka no? Halata."),
@@ -61,7 +58,7 @@ public class NPC_Jumpscare extends Entity {
                 )
         );
 
-        // Sequence 1: player listens → gets the scare
+        // Sequence 1: player listens → jumpscare after last line
         DialogueSequence listens = new DialogueSequence("listens",
                 new DialogueLine("Okay lang naman dito sa opisina..."),
                 new DialogueLine("...pero 'wag kang mag-overtime ng mag-isa."),
@@ -70,7 +67,7 @@ public class NPC_Jumpscare extends Entity {
                 new DialogueLine("*stopped*")
         );
 
-        // Sequence 2: player tries to leave → scare finds them anyway
+        // Sequence 2: player tries to leave → jumpscare after last line
         DialogueSequence leaves = new DialogueSequence("leaves",
                 new DialogueLine("Sige, sige. Mag-ingat ka sa CR ha."),
                 new DialogueLine("Lalo na yung 3rd floor."),
@@ -91,8 +88,11 @@ public class NPC_Jumpscare extends Entity {
         moving    = false;
     }
 
+    // Let dialogue run normally through super.speak()
+    // endDialogue() fires when the last line is done → triggers jumpscare
     @Override
-    public void speak() {
+    protected void endDialogue() {
+        super.endDialogue();
         triggerJumpscare();
     }
 
@@ -109,12 +109,10 @@ public class NPC_Jumpscare extends Entity {
         int sw = gp.screenWidth;
         int sh = gp.screenHeight;
 
-        // Red flash that fades out over the 1 second
         float flashFade = (float) jumpscareTimer / JUMPSCARE_DURATION;
         g2.setColor(new Color(1f, 0f, 0f, FLASH_ALPHA * flashFade));
         g2.fillRect(0, 0, sw, sh);
 
-        // Jumpscare image — fully visible at start, fades with the flash
         if (jumpscareImage != null) {
             Composite old = g2.getComposite();
             g2.setComposite(AlphaComposite.getInstance(
@@ -123,7 +121,6 @@ public class NPC_Jumpscare extends Entity {
             g2.setComposite(old);
         }
 
-        // Play jumpscare_scream.wav once (index 9 — add to Sound.java, see below)
         if (!soundPlayed) {
             gp.sound.playSE(Sound.SE_JUMPSCARE);
             soundPlayed = true;
@@ -133,11 +130,5 @@ public class NPC_Jumpscare extends Entity {
         if (jumpscareTimer <= 0) {
             gp.gameState = gp.playState;
         }
-
-    }
-    public boolean isOnLastLine() {
-        if (dialogueVariants == null || currentSequenceIndex < 0) return false;
-        DialogueSequence seq = dialogueVariants[currentSequenceIndex];
-        return seq != null && currentLineIndex >= seq.lines.length - 1;
     }
 }
