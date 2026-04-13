@@ -15,13 +15,17 @@ public class Sound {
     public static final int MUSIC_TITLE    = 0;
     public static final int MUSIC_CHAPTER1 = 3;
     public static final int MUSIC_CHAPTER2 = 4;
-    public static final int MUSIC_CHAPTER3 = 6;
+    public static final int MUSIC_CHAPTER4 = 6;
+    public static final int MUSIC_CHAPTER3 = 8;
 
     //sound effects
 
     public static final int SE_BUTTON = 1;
     public static final int SE_JUMP = 2;
     public static final int SE_WHEEL = 5;
+    public static final int SE_VOICE = 7;
+    public static final int SE_JUMPSCARE = 9;
+
 
     //master volume
     private static final float MUSIC_VOLUME = 0.1f;
@@ -40,12 +44,16 @@ public class Sound {
         soundURL[3] = getClass().getResource("/sound/chapter1.wav");
         soundURL[4] = getClass().getResource("/sound/chapter2.wav");
         soundURL[5] = getClass().getResource("/sound/wheelSound.wav");
-        soundURL[6]= getClass().getResource("/sound/chapter3.wav");
+        soundURL[6] = getClass().getResource("/sound/chapter4.wav");
+        soundURL[7] = getClass().getResource("/sound/dialogue_voice_2.wav");
+        soundURL[8] = getClass().getResource("/sound/chapter3.wav");
+        soundURL[9] = getClass().getResource("/sound/jumpscare_scream.wav");
 
         seClips = new Clip[soundURL.length];
         preloadSE(SE_BUTTON);
         preloadSE(SE_JUMP);
         preloadSE(SE_WHEEL);
+        preloadSE(SE_VOICE);
     }
 
     public void playMusic(int i){
