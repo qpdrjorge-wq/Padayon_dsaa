@@ -65,14 +65,14 @@ public class NPC_Jumpscare extends Entity {
         DialogueSequence listens = new DialogueSequence("listens",
                 new DialogueLine("Okay lang naman dito sa opisina..."),
                 new DialogueLine("...pero 'wag kang mag-overtime ng mag-isa."),
-                new DialogueLine("Yung dating empleyado dito... 'di na siya umuwi."),
+                new DialogueLine("Yung dating empleyado dito... 'di na nakauwi."),
                 new DialogueLine("Tinanong ko siya bakit. Sabi niya..."),
                 new DialogueLine("*stopped*")
         );
 
         // Sequence 2: player tries to leave → scare finds them anyway
         DialogueSequence leaves = new DialogueSequence("leaves",
-                new DialogueLine("Sige, sige. Mag-ingat ka sa CR mo ha."),
+                new DialogueLine("Sige, sige. Mag-ingat ka sa CR ha."),
                 new DialogueLine("Lalo na yung 3rd floor."),
                 new DialogueLine("..."),
                 new DialogueLine("*Lumingon ka. Wala na siya. Kailan pa siya umalis?*")
