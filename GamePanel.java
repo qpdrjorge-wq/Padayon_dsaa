@@ -15,10 +15,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class GamePanel extends JPanel implements Runnable {
+public class GamePanel extends JPanel implements Runnable{
 
     public final int originalTileSize = 32;
     final int scale = 2;
@@ -31,8 +32,8 @@ public class GamePanel extends JPanel implements Runnable {
     public int screenHeight = tileSize * maxScreenRow; // 768
 
     //Temporary screen
-    int screenWidth2 = screenWidth;
-    int screenHeight2 = screenHeight;
+    public int screenWidth2 = screenWidth;
+    public int screenHeight2 = screenHeight;
     BufferedImage tempScreen;
     Graphics2D g2;
 
@@ -41,10 +42,12 @@ public class GamePanel extends JPanel implements Runnable {
     public int numberOfPlayers;
     public boolean[] hasSelected;
     public int currentSelectingPlayer = 0;
+    public static final int TOTAL_CHARACTERS = 4;
 
     //world settings
     public int maxWorldCol = 90;
     public int maxWorldRow = 47;
+    private int chapter1DeckIndex = 0;
 
     //SYSTEM
     public TileManager tileM = new TileManager(this);
@@ -58,6 +61,7 @@ public class GamePanel extends JPanel implements Runnable {
     public PropertyTab propertyTab;
     public PropertySelectionOverlay propertyOverlay;
     public Sound sound = new Sound();
+    public List<LeaderboardSave.SavedEntry> savedLeaderboard = new ArrayList<>();
 
     //ENTITY AND OBJECT
     public Player[] players;
@@ -90,6 +94,11 @@ public class GamePanel extends JPanel implements Runnable {
     public final int gameModeSelectState = 10;
     public final int chapterSelectState = 11;
     public final int leaderboardState = 12;
+    public final int titleLeaderboardState = 13;
+    public final int creditState = 14;
+    public final int careerSelectState = 15;
+    public final int babySpinState = 16;
+    public final int jumpscareState = 17;
 
     //camera stuffs
     public int cameraWorldX;
@@ -119,6 +128,8 @@ public class GamePanel extends JPanel implements Runnable {
     public boolean pendingCardAfterBuff = false;
     public int globalTurnCount = 0;
     public static final int INCOME_INTERVAL = 5;
+    public card.CareerCard currentCareerCard = null;
+    public card.BabySpinOverlay babySpinOverlay = null;
 
     //settings
     public int previousState;
@@ -149,7 +160,7 @@ public class GamePanel extends JPanel implements Runnable {
         public int score;
         public int rank;
 
-        public LeaderboardEntry(String name, int happiness, int reputation, int money) {
+        public LeaderboardEntry(String name, int happiness, int reputation, int money){
             this.name = name;
             this.happiness = happiness;
             this.reputation = reputation;
@@ -160,20 +171,28 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void buildLeaderboard() {
+
+        for (Player p : players) {
+            if (p != null) p.finalizeAssets();
+        }
+
         leaderboard = new LeaderboardEntry[numberOfPlayers];
-        for (int i = 0; i < numberOfPlayers; i++) {
+        for (int i = 0; i < numberOfPlayers; i++){
             Player p = players[i];
             leaderboard[i] = new LeaderboardEntry(
                     p.playerName, p.happiness, p.reputation, p.money);
         }
         insertionSortLeaderboard(leaderboard);
-        for (int i = 0; i < leaderboard.length; i++) {
+        for (int i = 0; i < leaderboard.length; i++){
             leaderboard[i].rank = i + 1;
         }
+
+        LeaderboardSave.save(savedLeaderboard, this);
+        savedLeaderboard = LeaderboardSave.load();
     }
 
-    private void insertionSortLeaderboard(LeaderboardEntry[] arr) {
-        for (int i = 1; i < arr.length; i++) {
+    private void insertionSortLeaderboard(LeaderboardEntry[] arr){
+        for (int i = 1; i < arr.length; i++){
             LeaderboardEntry key = arr[i];
             int j = i - 1;
             while (j >= 0 && arr[j].score < key.score) {
@@ -198,17 +217,17 @@ public class GamePanel extends JPanel implements Runnable {
     public void startGame() {
         createPlayers();
 
-        if (!isFullGame) {
+        if(!isFullGame){
             startingSingleChapter(selectedSingleChapter);
             return;
         }
 
-        currentChapter = 1;
-        playersAtEnd = 0;
-        currentPlayerTurn = 0;
-        wheel.hasSpun = false;
+        currentChapter        = 1;
+        playersAtEnd          = 0;
+        currentPlayerTurn     = 0;
+        wheel.hasSpun         = false;
         cardTriggeredThisTurn = false;
-        gameState = playState;
+        gameState             = playState;
     }
 
     public void startGameThread() {
@@ -224,8 +243,8 @@ public class GamePanel extends JPanel implements Runnable {
 
         try {
             BufferedImage img = ImageIO.read(getClass().getResourceAsStream("/elements/random/colorWheel2.png"));
-            wheel = new Wheel(this, 38 * tileSize, 14 * tileSize, tileSize * 6, img);
-        } catch (IOException e) {
+            wheel = new Wheel(this, 38 * tileSize,  14 * tileSize, tileSize * 6, img);
+        } catch(IOException e){
             e.printStackTrace();
         }
 
@@ -236,6 +255,7 @@ public class GamePanel extends JPanel implements Runnable {
         sound.playMusic(Sound.MUSIC_TITLE);
         aSetter.setNPC();
         gameState = titleState;
+        savedLeaderboard = LeaderboardSave.load();
         chapter1Deck = Chapter1Cards.createChapter1Deck(this);
         chapter1CurseDeck = CurseCardDeck.createChapter1Deck(this);
         currentCamX = 8 * tileSize;
@@ -250,12 +270,12 @@ public class GamePanel extends JPanel implements Runnable {
     @Override
     public void run() {
 
-        double drawInterval = 1000000000 / 60.0; //the budget of 16, 666, 666 nanoseconds to complete one cycle in 60fps
+        double drawInterval = 1000000000/60.0; //the budget of 16, 666, 666 nanoseconds to complete one cycle in 60fps
         double delta = 0; // accumulator, tracks how much a frame has passed. when its reaches 1(100% of frame interval) it's time to update and draw
         long lastTime = System.nanoTime();
         long currentTime;
 
-        while (gameThread != null) {
+        while(gameThread != null){
 
             currentTime = System.nanoTime();
 
@@ -263,7 +283,7 @@ public class GamePanel extends JPanel implements Runnable {
 
             lastTime = currentTime;
 
-            if (delta >= 1) {
+            if(delta >= 1){
                 update(); //update info such as position
                 repaint();
                 delta--;
@@ -272,7 +292,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     }
 
-    public void setFullScreen() {
+    public void setFullScreen(){
 
 //        get local screen device
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -285,9 +305,9 @@ public class GamePanel extends JPanel implements Runnable {
         screenHeight2 = Main.window.getHeight();
     }
 
-    public void update() { //handles all game logic and state changes
+    public void update(){ //handles all game logic and state changes
 
-        if (gameState == playState) {
+        if (gameState == playState){
 
             updateCamera();
 
@@ -295,26 +315,26 @@ public class GamePanel extends JPanel implements Runnable {
             if (!waitingAfterSpin) {
                 currentPlayer.update();
             }
-            for (int i = 0; i < npc.length; i++) {
-                if (npc[i] != null) {
+            for(int i = 0; i < npc.length; i++){
+                if(npc[i] != null){
                     npc[i].update();
                 }
             }
 
             wheel.update();
 
-            if (wheel.justStopped) {
+            if(wheel.justStopped){
                 waitingAfterSpin = true;
                 cameraTimer = 0;
                 wheel.justStopped = false;
             }
 
-            if (waitingAfterSpin) {
+            if (waitingAfterSpin){
                 cameraTimer++;
 
                 cameraMode = CAMERA_PLAYER;
 
-                if (cameraTimer > cameraDelay) {
+                if(cameraTimer > cameraDelay){
                     int result = wheel.getResultSegment() + 1;
 
                     currentPlayer.startBoardMove(result);
@@ -325,48 +345,55 @@ public class GamePanel extends JPanel implements Runnable {
             }
 
             if (propertyOverlay != null) propertyOverlay.update();
-            if (propertyTab != null) propertyTab.update();
+            if (propertyTab     != null) propertyTab.update();
 
-            if (currentPlayer.knockbackJustEnded) {
+            if(currentPlayer.knockbackJustEnded){
                 currentPlayer.knockbackJustEnded = false;
                 cardTriggeredThisTurn = false;
                 return;
             }
 
-            if (currentPlayer.hasFinishedMovement() &&
-                    !currentPlayer.waitingForBranchChoice && !wheel.spinning && wheel.hasSpun && !cardTriggeredThisTurn && !waitingAfterSpin && !currentPlayer.knockingBack) {
+            if(currentPlayer.hasFinishedMovement() &&
+                    !currentPlayer.waitingForBranchChoice && !wheel.spinning && wheel.hasSpun && !cardTriggeredThisTurn && !waitingAfterSpin && !currentPlayer.knockingBack){
 
                 checkEndCondition();
 
-                if (propertyOverlay != null && propertyOverlay.isActive()) {
-                    return;
-                }
+                if (propertyOverlay != null && propertyOverlay.isActive()) {return;}
 
-                if (!currentPlayer.hasReachedEnd) {
+                if(!currentPlayer.hasReachedEnd){
                     triggerRandomCard();
                     cardTriggeredThisTurn = true;
                 }
                 return;
             }
 
-            if (currentCard != null) {
+            if (currentCard != null){
                 currentCard.update();
             }
 
-            if (currentCurseCard != null) {
+            if(currentCurseCard != null){
                 currentCurseCard.update();
             }
 
-            if (currentCurseCard != null && currentCurseCard.state == Card.CardState.HIDDEN) {
+            if(currentCurseCard != null && currentCurseCard.state == Card.CardState.HIDDEN){
+                int savedSteps = currentCurseCard.casterStepsSnapshot;
                 currentCurseCard = null;
                 ui.checkStatChanges();
+
+                if (savedSteps > 0) {
+                    currentPlayer.stepsRemaining = savedSteps;
+                    currentPlayer.boardMoving = true;
+                    cardTriggeredThisTurn = false;
+                    return;
+                }
+
                 nextTurn();
             }
 
-            if (currentCard != null && currentCard.state == Card.CardState.SHOWING) {
-                if (keyH.enterPressed) {
+            if(currentCard != null && currentCard.state == Card.CardState.SHOWING){
+                if (keyH.enterPressed){
 
-                    if (currentCard.hasOptions() && mouseH.chosenOption == -1) {
+                    if(currentCard.hasOptions() && mouseH.chosenOption == -1){
                         keyH.enterPressed = false;
                         return;
                     }
@@ -378,11 +405,9 @@ public class GamePanel extends JPanel implements Runnable {
                 }
             }
 
-            if (currentCard != null && currentCard.state == Card.CardState.HIDDEN) {
+            if(currentCard != null && currentCard.state == Card.CardState.HIDDEN){
 
-                if (propertyOverlay != null && propertyOverlay.isActive()) {
-                    return;
-                }
+                if(propertyOverlay != null && propertyOverlay.isActive()){return;}
 
                 currentCard = null;
                 mouseH.chosenOption = -1;
@@ -390,14 +415,14 @@ public class GamePanel extends JPanel implements Runnable {
                 nextTurn();
             }
 
-            if (keyH.spacePressed && !wheel.spinning && !currentPlayer.boardMoving) {
+            if(keyH.spacePressed && !wheel.spinning && !currentPlayer.boardMoving){
                 cameraMode = CAMERA_WHEEL;
                 wheel.spin();
                 keyH.spacePressed = false;
             }
         }
 
-        if (gameState == dialogueState) {
+        if(gameState == dialogueState){
 
             if (activeNPC != null && activeNPC.choiceTimerActive) {
                 activeNPC.tickChoiceTimer();
@@ -412,25 +437,25 @@ public class GamePanel extends JPanel implements Runnable {
 
             currentDialogueTimer++;
 
-            if (currentDialogueTimer > 110) {
+            if(currentDialogueTimer > 110){
                 activeNPC.speak();
                 currentDialogueTimer = 0;
             }
         }
 
-        if (gameState == buffState) {
+        if(gameState == buffState){
 
-            if (keyH.enterPressed) {
+            if(keyH.enterPressed){
                 ui.buffActive = false;
                 keyH.enterPressed = false;
                 gameState = playState;
 
-                if (currentPlayer.stepsRemaining > 0) {
+                if(currentPlayer.stepsRemaining > 0){
                     currentPlayer.boardMoving = true;
                     return;
                 }
 
-                if (pendingCardAfterBuff) {
+                if(pendingCardAfterBuff){
                     triggerRandomCard();
                     cardTriggeredThisTurn = true;
                     pendingCardAfterBuff = false;
@@ -439,7 +464,25 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
 
-        if (gameState == pauseState) {
+        if (gameState == careerSelectState){
+            if (currentCareerCard != null){
+                currentCareerCard.update();
+            }
+        }
+
+        if (gameState == babySpinState){
+            if (babySpinOverlay != null){
+                babySpinOverlay.update();
+                if (babySpinOverlay.phase == BabySpinOverlay.Phase.DONE){
+                    babySpinOverlay = null;
+                    cardTriggeredThisTurn = true;
+                    gameState = playState;
+                    nextTurn();
+                }
+            }
+        }
+
+        if (gameState == pauseState){
             //nothing
         }
 
@@ -455,13 +498,13 @@ public class GamePanel extends JPanel implements Runnable {
 
         if (gameState == chapterTransitionState) {
             transitionTimer++;
-            transitionAlpha = Math.min(1f, transitionTimer / (float) (TRANSITION_DURATION / 2));
+            transitionAlpha = Math.min(1f, transitionTimer / (float)(TRANSITION_DURATION / 2));
 
             if (transitionTimer == TRANSITION_DURATION / 2) {
                 int nextChapter = currentChapter + 1;
 
                 //single chapter mode
-                if (!isFullGame) {
+                if(!isFullGame){
                     buildLeaderboard();
                     transitionAlpha = 0f;
                     transitionTimer = 0;
@@ -470,7 +513,7 @@ public class GamePanel extends JPanel implements Runnable {
                 }
 
                 //full game
-                if (nextChapter > TOTAL_CHAPTERS) {
+                if (nextChapter > TOTAL_CHAPTERS){
                     buildLeaderboard();
                     transitionAlpha = 0f;
                     transitionTimer = 0;
@@ -494,20 +537,20 @@ public class GamePanel extends JPanel implements Runnable {
 
     }
 
-    public void updateCamera() {
+    public void updateCamera(){
 
         int targetX = 0;
         int targetY = 0;
 
-        if (cameraMode == CAMERA_PLAYER) {
+        if (cameraMode == CAMERA_PLAYER){
             Player p = players[currentPlayerTurn];
 
             targetX = p.worldX + p.solidArea.width / 2;
             targetY = p.worldY + p.solidArea.height / 2;
-        } else if (cameraMode == CAMERA_WHEEL) {
+        } else if (cameraMode == CAMERA_WHEEL){
             targetX = wheel.x + wheel.size / 2;
             targetY = wheel.y + wheel.size / 2;
-        } else if (cameraMode == CAMERA_VIEW) {
+        } else if(cameraMode == CAMERA_VIEW){
             targetX = maxWorldCol * tileSize / 2;
             targetY = maxWorldRow * tileSize / 2;
         }
@@ -516,20 +559,12 @@ public class GamePanel extends JPanel implements Runnable {
         currentCamY += (targetY - currentCamY) * lerpAmount;
 
         // Apply the smoothed coordinates to the final camera variables used by draw()
-        cameraWorldX = (int) currentCamX;
-        cameraWorldY = (int) currentCamY;
+        cameraWorldX = (int)currentCamX;
+        cameraWorldY = (int)currentCamY;
     }
 
     public void nextTurn() {
         ui.transitionAlpha = 1.0f;
-
-        if (players != null) {
-            for (Player p : players) {
-                if (p != null & p.blockedTurns > 0) {
-
-                }
-            }
-        }
 
         if (players != null && players[currentPlayerTurn] != null) {
             players[currentPlayerTurn].updateBuffDurations();
@@ -545,21 +580,25 @@ public class GamePanel extends JPanel implements Runnable {
         int startTurn = currentPlayerTurn;
         // move to the next player
 
-        do {
+        do{
             currentPlayerTurn++;
-            if (currentPlayerTurn >= numberOfPlayers) {
+            if(currentPlayerTurn >= numberOfPlayers) {
                 currentPlayerTurn = 0;
             }
 
             if (currentPlayerTurn == startTurn) break;
 
             Player next = players[currentPlayerTurn];
-            if (next.blockedTurns > 0) {
+
+            if (next.hasReachedEnd && gameState != chapterTransitionState) continue;
+
+            if(next.blockedTurns > 0){
                 next.blockedTurns--;
                 continue;
             }
-        } while (players[currentPlayerTurn].hasReachedEnd
-                && this.gameState != this.chapterTransitionState);
+            break;
+
+        } while(true);
 
         currentPlayer = players[currentPlayerTurn];
 
@@ -573,29 +612,27 @@ public class GamePanel extends JPanel implements Runnable {
 
         players = new Player[numberOfPlayers];
 
+        // Step 1: Create players with correct character numbers
         for (int i = 0; i < numberOfPlayers; i++) {
-
-            int selectedCharacterNum = selectedCharacterOrder[i] + 1;
+            int selectedCharacterNum = selectedCharacterOrder[i] + 1;  // Convert 0-based to 1-based
             players[i] = new Player(this, keyH, selectedCharacterNum);
 
             if (isFullGame) {
                 BoardNode start = players[i].getStartPoint();
-
                 players[i].worldX = start.col * tileSize;
                 players[i].worldY = start.row * tileSize;
             }
-            players[i].currentPathIndex = 0;   // THIS is your board index
+            players[i].currentPathIndex = 0;
         }
 
+        // Step 2: Assign names to players (Player 0 gets name from selectedCharacterOrder[0], etc.)
         for (int i = 0; i < numberOfPlayers; i++) {
-            if (playerNames != null) {
-                int characterSlot = selectedCharacterOrder[i]; // which character box they picked
-                if (characterSlot < playerNames.length && playerNames[characterSlot] != null) {
-                    players[i].playerName = playerNames[characterSlot];
-                }
+            if (playerNames != null && i < playerNames.length && playerNames[i] != null) {
+                players[i].playerName = playerNames[i];
             }
         }
 
+        // Step 3: Single chapter starting money
         if (!isFullGame) {
             int startMoney = (selectedSingleChapter < CHAPTER_START_MONEY.length)
                     ? CHAPTER_START_MONEY[selectedSingleChapter] : 0;
@@ -607,38 +644,54 @@ public class GamePanel extends JPanel implements Runnable {
         ui.initStatSnapshots();
     }
 
-    public void drawToTempScreen() {
+    public void drawToTempScreen(){
 
-        if (gameState == titleState) {
+        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+                RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+        g2.setRenderingHint(RenderingHints.KEY_RENDERING,
+                RenderingHints.VALUE_RENDER_SPEED);
+
+        if (gameState == titleState){
+            ui.updateBackgroundAnimation();
             ui.draw(g2);
-        } else if (gameState == playerCountState) {
+        } else if (gameState == titleLeaderboardState){
+            ui.updateBackgroundAnimation();
             ui.draw(g2);
-        } else if (gameState == gameModeSelectState) {
+        }else if (gameState == creditState) {
+            ui.updateBackgroundAnimation();
             ui.draw(g2);
-        } else if (gameState == chapterSelectState) {
+        } else if (gameState == playerCountState){
+            ui.updateBackgroundAnimation();
             ui.draw(g2);
-        } else if (gameState == characterSelectState) {
+        } else if (gameState == gameModeSelectState){
+            ui.updateBackgroundAnimation();
+            ui.draw(g2);
+        } else if (gameState == chapterSelectState){
+            ui.updateBackgroundAnimation();
+            ui.draw(g2);
+        }else if(gameState == characterSelectState) {
+            ui.updateBackgroundAnimation();
             ui.draw(g2);
         } else if (gameState == leaderboardState) {
             ui.draw(g2);
-        } else {
+        }else{
             tileM.drawGround(g2);
             tileM.drawDecor(g2);
 
             wheel.draw(g2);
 
-            for (Player p : players) {
+            for(Player p : players){
                 p.draw(g2);
             }
 
-            for (int i = 0; i < obj.length; i++) {
-                if (obj[i] != null) {
+            for(int i = 0; i < obj.length; i++){
+                if(obj[i] != null){
                     obj[i].draw(g2, this);
                 }
             }
 
-            for (int i = 0; i < npc.length; i++) {
-                if (npc[i] != null) {
+            for(int i = 0; i < npc.length; i++){
+                if(npc[i] != null){
                     npc[i].drawNpc(g2);
                 }
             }
@@ -646,7 +699,7 @@ public class GamePanel extends JPanel implements Runnable {
             ui.playerStatus(g2);
             ui.draw(g2);
 
-            if (currentCard != null) {
+            if(currentCard != null){
                 currentCard.draw(g2);
             }
 
@@ -654,11 +707,19 @@ public class GamePanel extends JPanel implements Runnable {
                 currentCurseCard.draw(g2);
             }
 
-            if (propertyTab != null) {
+            if (currentCareerCard != null && gameState == careerSelectState) {
+                currentCareerCard.draw(g2);
+            }
+
+            if (babySpinOverlay != null && gameState == babySpinState) {
+                babySpinOverlay.draw(g2);
+            }
+
+            if(propertyTab != null){
                 propertyTab.draw(g2);
             }
 
-            if (propertyOverlay != null && propertyOverlay.isActive()) {
+            if(propertyOverlay != null && propertyOverlay.isActive()){
                 propertyOverlay.draw(g2);
             }
 
@@ -666,6 +727,9 @@ public class GamePanel extends JPanel implements Runnable {
                 ui.draw(g2);
             }
         }
+
+        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+                RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);;
     }
 
     public void setupCharacterSelection() {
@@ -675,7 +739,9 @@ public class GamePanel extends JPanel implements Runnable {
         selectedCharacterOrder = new int[numberOfPlayers];
         playerNames = new String[numberOfPlayers];
 
-        for (int i = 0; i < numberOfPlayers; i++) {
+        for (int i = 0; i < numberOfPlayers; i++){
+            hasSelected[i] = false;
+            selectedCharacterOrder[i] = -1;
             playerNames[i] = "Player " + (i + 1);
         }
 
@@ -687,20 +753,22 @@ public class GamePanel extends JPanel implements Runnable {
         ui.nameInputBuffer = "";
     }
 
-    public void triggerRandomCard() {
+    public void triggerRandomCard(){
 
-        Collections.shuffle(chapter1Deck);
+        if (chapter1DeckIndex >= chapter1Deck.size()) {
+            Collections.shuffle(chapter1Deck);
+            chapter1DeckIndex = 0;
+        }
 
-        currentCard = chapter1Deck.get(0);
+        currentCard = chapter1Deck.get(chapter1DeckIndex);
+        chapter1DeckIndex++;
         currentCard.resetCard();
         currentCard.spawnCard();
     }
 
     public void triggerRandomCurseCard() {
         List<card.CurseCard> deck = (currentChapter == 2) ? chapter2CurseDeck : chapter1CurseDeck;
-        if (deck == null || deck.isEmpty()) {
-            return;
-        }
+        if (deck == null || deck.isEmpty()) {return;}
 
         Collections.shuffle(deck);
         currentCurseCard = deck.get(0);
@@ -709,11 +777,14 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
 
-    public void paintComponent(Graphics g) { //builtin in java
+    public void paintComponent(Graphics g){ //builtin in java
 
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D) g;
+
+        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+                RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 
         drawToTempScreen();   // draw everything to temp image
         g2.drawImage(tempScreen, 0, 0, screenWidth2, screenHeight2, null);
@@ -739,6 +810,28 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    public void triggerCareerCard() {
+
+        java.util.List<card.Career> all = new java.util.ArrayList<>(
+                java.util.Arrays.asList(card.Career.careers));
+        java.util.Collections.shuffle(all);
+
+        card.Career[] options = new card.Career[3];
+        for (int i = 0; i < 3; i++) {
+            options[i] = all.get(i);
+        }
+
+        currentCareerCard = new card.CareerCard(this, options);
+        currentCareerCard.resetCard();
+        currentCareerCard.spawnCard();
+        gameState = careerSelectState;
+    }
+
+    public void triggerBabySpin(entity.Player player) {
+        babySpinOverlay = new card.BabySpinOverlay(this, player);
+        gameState = babySpinState;
+    }
+
     //chapter
 
     public void loadChapter(int chapter) {
@@ -752,6 +845,7 @@ public class GamePanel extends JPanel implements Runnable {
                 tileM.loadChapter2();
                 aSetter.setNPCChapter2();
                 chapter1Deck = Chapter2Cards.createChapter2Deck(this);
+                chapter1DeckIndex = 0;
                 chapter2CurseDeck = CurseCardDeck.createChapter2Deck(this);
             }
             case 3 -> {
@@ -761,12 +855,14 @@ public class GamePanel extends JPanel implements Runnable {
                 aSetter.setWheelForChapter3();
                 chapter1Deck = Chapter3Cards.createChapter3Deck(this);
             }
-//            case 4 -> {
-//                sound.playMusic(Sound.MUSIC_CHAPTER4);
-//                tileM.loadChapter4();
-//                aSetter.setNPCChapter4();
-//                chapter1Deck = Chapter4Cards.createChapter4Deck(this);
-//            }
+            case 4 -> {
+                sound.playMusic(Sound.MUSIC_CHAPTER1);
+                tileM.loadChapter4();
+                aSetter.setNPCChapter2();
+                chapter1Deck = Chapter4Cards.createChapter4Deck(this);
+                chapter1DeckIndex = 0;
+                chapter2CurseDeck = CurseCardDeck.createChapter2Deck(this);
+            }
             default -> {
                 System.out.println("No chapter " + chapter + " defined.");
                 gameState = titleState; // or a game-over/credits state
@@ -794,29 +890,42 @@ public class GamePanel extends JPanel implements Runnable {
         currentCamY = players[0].worldY;
     }
 
-    public void startingSingleChapter(int chapter) {
+    public void startingSingleChapter(int chapter){
         selectedSingleChapter = chapter;
         currentChapter = chapter;
 
-        switch (chapter) {
+        switch (chapter){
             case 1 -> {
-                sound.playMusic(Sound.MUSIC_CHAPTER1);
+                sound.playMusic(Sound.MUSIC_TITLE);
                 aSetter.setNPC();
                 chapter1Deck = Chapter1Cards.createChapter1Deck(this);
+                chapter1DeckIndex = 0;
             }
             case 2 -> {
                 sound.playMusic(Sound.MUSIC_CHAPTER2);
                 tileM.loadChapter2();
-                aSetter.setNPC();
+                aSetter.setNPCChapter2();
                 chapter1Deck = Chapter2Cards.createChapter2Deck(this);
+                chapter1DeckIndex = 0;
                 chapter2CurseDeck = CurseCardDeck.createChapter2Deck(this);
             }
+
             case 3 -> {
                 sound.playMusic(Sound.MUSIC_CHAPTER3);
                 tileM.loadChapter3();
-                aSetter.setNPC();
+                aSetter.setNPCChapter3();
+                aSetter.setWheelForChapter3();
                 chapter1Deck = Chapter3Cards.createChapter3Deck(this);
                 chapter2CurseDeck = CurseCardDeck.createChapter3Deck(this);
+            }
+            case 4 -> {
+                sound.playMusic(Sound.MUSIC_CHAPTER4);
+                tileM.loadChapter4();
+                aSetter.setNPCChapter4();
+                aSetter.setWheelForChapter4();
+                chapter1Deck = Chapter4Cards.createChapter4Deck(this);
+                chapter1DeckIndex = 0;
+                chapter2CurseDeck = CurseCardDeck.createChapter2Deck(this);
             }
             default -> {
                 System.out.println("Chapter " + chapter + " not yet implemented");
@@ -825,13 +934,15 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
 
-        if (players != null) {
+        if (players != null){
 
             int startMoney = (chapter < CHAPTER_START_MONEY.length) ? CHAPTER_START_MONEY[chapter] : 0;
             for (Player p : players) {
 
-                switch (chapter) {
+                switch (chapter){
                     case 2 -> p.pathLoader.loadChapter2Path();
+                    case 3 -> p.pathLoader.loadChapter3Path();
+                    case 4 -> p.pathLoader.loadChapter4Path();
                 }
 
                 BoardNode start = p.pathLoader.pathPoints.get(0);
@@ -843,34 +954,14 @@ public class GamePanel extends JPanel implements Runnable {
 
                 p.setBaseMoney(startMoney);
             }
-
-            if (players != null) {
-
-                 startMoney = (chapter < CHAPTER_START_MONEY.length) ? CHAPTER_START_MONEY[chapter] : 0;
-                for (Player p : players) {
-
-                    switch (chapter) {
-                        case 3 -> p.pathLoader.loadChapter3Path();
-                    }
-
-                    BoardNode start = p.pathLoader.pathPoints.get(0);
-                    p.worldX = start.col * tileSize;
-                    p.worldY = start.row * tileSize;
-                    p.currentPathIndex = 0;
-                    p.hasReachedEnd = false;
-                    p.boardMoving = false;
-
-                    p.setBaseMoney(startMoney);
-                }
-                currentCamX = players[0].worldX;
-                currentCamY = players[0].worldY;
-            }
-
-            playersAtEnd = 0;
-            currentPlayerTurn = 0;
-            wheel.hasSpun = false;
-            cardTriggeredThisTurn = false;
-            gameState = playState;
+            currentCamX = players[0].worldX;
+            currentCamY = players[0].worldY;
         }
+
+        playersAtEnd = 0;
+        currentPlayerTurn = 0;
+        wheel.hasSpun = false;
+        cardTriggeredThisTurn = false;
+        gameState = playState;
     }
 }
