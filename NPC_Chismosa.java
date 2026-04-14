@@ -42,7 +42,7 @@ public class NPC_Chismosa  extends Entity{
                 new DialogueLine("baka naman may extra ka petty cash, bayaran ko nalang sa katapusan.."),
                 new DialogueLine(
                         "What is your response?",
-                        new String[]{"Yung utang mo nga 'di mo pa rin nababayaran sakin e!!", "Ay mare sorry wala kong extra ngayon e"},
+                        new String[]{"Bayad muna utang.", "Sorry, wala akong extra."},
                         new int[]{2, 3}  // index 2 = angryResponse, index 3 = goodResponse
                 )
         );
@@ -50,10 +50,9 @@ public class NPC_Chismosa  extends Entity{
         // Sequence 1: Variant B (different opener for player 2+)
         DialogueSequence variantB = new DialogueSequence("variantB",
                 new DialogueLine("May bago ka na raw trabahon ah? Pautang naman 500 bayaran kita sa katapusan..."),
-                new DialogueLine("mamamo."),
                 new DialogueLine(
                         "What do you think",
-                        new String[]{"Kapal naman ho ng batok niyong mangutang", "Wala akong trabaho"},
+                        new String[]{"Sana marunong kayo mahiya.", "Wala akong trabaho."},
                         new int[]{2, 3}
                 )
         );
@@ -66,8 +65,7 @@ public class NPC_Chismosa  extends Entity{
 
         // Sequence 3: Sad response branch (shared)
         DialogueSequence goodResponse = new DialogueSequence("goodResponse",
-                new DialogueLine("Ay, ganon, kaya pala di mo mapaayos ung bubong niyo"),
-                new DialogueLine("hatdohg..")
+                new DialogueLine("Ay, ganon, kaya pala di mo mapaayos ung bubong niyo")
         );
 
         dialogueVariants = new DialogueSequence[]{
