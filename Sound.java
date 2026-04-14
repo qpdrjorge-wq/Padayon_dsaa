@@ -26,6 +26,11 @@ public class Sound {
     public static final int SE_VOICE = 7;
     public static final int SE_JUMPSCARE = 9;
 
+    //audios
+    public static final int SE_RANT_JO      = 10; //ilang taon nnmn ng buhay ko ...
+    public static final int SE_PAGOD_NA     = 11; // pagod na
+    public static final int SE_PURO_PASSION = 12; //hindi tayo mapapakain ng passion nayan
+    public static final int SE_GIRLIE = 13; //goodness gracious
 
     //master volume
     private static final float MUSIC_VOLUME = 0.1f;
@@ -47,13 +52,23 @@ public class Sound {
         soundURL[6] = getClass().getResource("/sound/chapter4.wav");
         soundURL[7] = getClass().getResource("/sound/dialogue_voice_2.wav");
         soundURL[8] = getClass().getResource("/sound/chapter3.wav");
-        soundURL[9] = getClass().getResource("/sound/jumpscare_scream.wav");
+        soundURL[9] = getClass().getResource("/sound/jumpscare_Cut.wav");
+        soundURL[10] = getClass().getResource("/sound/jo_rant.wav");
+        soundURL[11] = getClass().getResource("/sound/pagod_na.wav");
+        soundURL[12] = getClass().getResource("/sound/puro_passion.wav");
+        soundURL[13] = getClass().getResource("/sound/girlie_GG.wav");
+
 
         seClips = new Clip[soundURL.length];
         preloadSE(SE_BUTTON);
         preloadSE(SE_JUMP);
         preloadSE(SE_WHEEL);
         preloadSE(SE_VOICE);
+        preloadSE(SE_JUMPSCARE);
+        preloadSE(SE_RANT_JO);
+        preloadSE(SE_PAGOD_NA);
+        preloadSE(SE_PURO_PASSION);
+        preloadSE(SE_GIRLIE);
     }
 
     public void playMusic(int i){
