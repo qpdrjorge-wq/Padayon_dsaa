@@ -44,10 +44,22 @@ public class AssetSetter {
             gp.npc[i] = null;
         }
 
-        gp.npc[0] = new NPC_Dealer(gp);
-        gp.npc[0].worldX = 6 * gp.tileSize;
-        gp.npc[0].worldY = 13 * gp.tileSize;
+        gp.npc[1] = new NPC_Witch(gp);
+        gp.npc[1].worldX = 17 * gp.tileSize;
+        gp.npc[1].worldY = 15 * gp.tileSize;
     }
+
+    public void setWheelForChapter2(){
+        int col = 32;
+        int row = 39;
+
+        gp.wheel.x = col * gp.tileSize;
+        gp.wheel.y = row * gp.tileSize;
+
+        gp.obj[0].worldX = col * gp.tileSize;
+        gp.obj[0].worldY = row * gp.tileSize;
+    }
+
 
     public void setNPCChapter3(){
 
