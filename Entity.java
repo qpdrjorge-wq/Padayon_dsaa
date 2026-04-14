@@ -1,6 +1,7 @@
 package entity;
 
 import card.Buff;
+import card.CurseCard;
 import main.GamePanel;
 import main.Sound;
 import main.UtilityTool;
@@ -201,7 +202,7 @@ public class Entity { //parent class for players, npc, and monsters
             return;
         }
 
-//        if line had choices and player chose
+        // if line had choices and player chose
         if(line.hasChoices() && pendingChoiceResult != -1){
 
             choiceTimerActive = false;
@@ -211,6 +212,35 @@ public class Entity { //parent class for players, npc, and monsters
             int chosen = pendingChoiceResult;
             pendingChoiceResult = -1;
             gp.ui.hideDialogueChoices();
+
+            // --- CUSTOM WITCH LOGIC ---
+            if (this.label != null && this.label.equals("Witch")) {
+                card.CurseCard.CurseEffect choiceCurse = null;
+                int curseValue = 0;
+
+                if (chosen == 0) { choiceCurse = card.CurseCard.CurseEffect.STEAL_MONEY; curseValue = 1000; }
+                else if (chosen == 1) { choiceCurse = card.CurseCard.CurseEffect.BLOCK_TURNS; curseValue = 1; }
+                else if (chosen == 2) { choiceCurse = card.CurseCard.CurseEffect.DECREASE_HAPPINESS; curseValue = 30; }
+                else if (chosen == 3) { choiceCurse = CurseCard.CurseEffect.KNOCKBACK; curseValue = 9; }
+                else if (chosen == 4) { choiceCurse = CurseCard.CurseEffect.DECREASE_REPUTATION; curseValue = 25; }
+
+                if (choiceCurse != null && gp.currentPlayer != null) {
+                    gp.currentCurseCard = new card.CurseCard(
+                            gp,
+                            "Witch's Hex",
+                            "A dark curse chosen by " + gp.currentPlayer.playerName + "!",
+                            choiceCurse,
+                            curseValue
+                    );
+                    gp.currentCurseCard.spawnCard();
+                    gp.currentCurseCard.phase = card.CurseCard.CursePhase.PICKING_TARGET;
+                    gp.cardTriggeredThisTurn = true;
+
+                    endDialogue();
+                    return;
+                }
+            }
+            // --- END CUSTOM WITCH LOGIC ---
 
             Buff choiceBuff = line.getBuffForChoice(chosen);
             if (choiceBuff != null && gp.currentPlayer != null) {
@@ -250,7 +280,7 @@ public class Entity { //parent class for players, npc, and monsters
         }
     }
 
-    protected void endDialogue() {  // ← changed from private to protected
+    protected void endDialogue() {
 
         gp.ui.currentNPCName = "";
 
