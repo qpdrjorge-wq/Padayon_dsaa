@@ -55,6 +55,50 @@ public class Chapter2Cards {
                         new int[]{0, 30}, new int[]{0, 0}, new int[]{0, 0})
         );
 
+        deck.add(
+                new EventCard(gp, "Your terror professor asks a ridiculously hard question. " +
+                        "The whole class goes silent, and he starts looking at your row.",
+                        new String[]{"Stare at them", "Tingin sa Sahig"},
+                        new String[]{"He calls on you! You guessed the answer correctly by " +
+                                "some miracle. Your classmates think you're a hero.",
+                                "You stare intensely at your notebook pretending to read. " +
+                                        "He calls your seatmate instead. You are safe"},
+                        new int[]{-5, 30}, new int[]{30, 0}, new int[]{0, 0})
+        );
+
+        deck.add(
+                new EventCard(gp, "It is strictly P.E. day, but you completely forgot your jogging pants on your bed. " +
+                        "Your instructor won't let you do the activity if you're not wearing a PE uniform.",
+                        new String[]{"Borrow", "Go home"},
+                        new String[]{"You borrow an unwashed uniform from a friend. It smells, but you got in.",
+                                "You went back home to get your uniform but you missed the first subject and paid double fare"},
+                        new int[]{-10, -5}, new int[]{10, 0}, new int[]{0, -50})
+        );
+
+        deck.add(
+                new EventCard(gp, "Class dismissed. Your friends invites you to go to a comshop, but you have a major quiz tomorrow.",
+                        new String[]{"G! Laro", "Study"},
+                        new String[]{"It wasn't just one game. You stayed until 8 PM and failed the quiz",
+                                "You went home to review. You aced the quiz, but got FOMO"},
+                        new int[]{30, -25}, new int[]{-20, 30}, new int[]{0, 0})
+        );
+
+        deck.add(
+                new EventCard(gp, "Your school was having a fieldtrip and gave students a choice of either",
+                        new String[]{"Fieldtip", "Project"},
+                        new String[]{"The fieldtrip was mediocre but the cost of ticket was so expensive despite the boring places you went to",
+                                "You successfully finished the project despite the time constraints"},
+                        new int[]{5, -5}, new int[]{0, 15}, new int[]{-870, 0})
+        );
+
+        deck.add(
+                new EventCard(gp, "Your group needs to print and hardbound your final thesis at a shop near Recto, but nobody brought enough cash.",
+                        new String[]{"Mag-Abono", "Compute sa GC"},
+                        new String[]{"You paid for everything upfront. The paper is submitted on time, " +
+                                "but getting paid back by your groupmates will take weeks",
+                                "You refuse to front the cash and force everyone to calculate shares on the spot. The shop closes, and you submitted it late."},
+                        new int[]{0, -10}, new int[]{40, -30}, new int[]{-750, 0})
+        );
 
 
         return deck;
