@@ -12,22 +12,28 @@ public class Chapter2Cards {
         List<EventCard> deck = new ArrayList<>();
 
         deck.add(
-                new EventCard(gp,"You were found smoking in the school bathroom", null,  null,new int[]{-10}, new int[]{-5}, new int[]{0}));
+                new EventCard(gp,"You were found smoking in the school bathroom", null,
+                        null,new int[]{-10}, new int[]{-5}, new int[]{0}));
 
         deck.add(
-                new EventCard(gp, "Your class starts at 8am, it's 7:40am, what should you do?", new String[]{"Get up", "accept fate"}, new String[] {"You realized it's Sunday, there is no school", "Luckily you stayed home, it's Sunday!"}, new int[]{-10, 15}, new int[]{0, 0}, new int[]{-35, 0})
+                new EventCard(gp, "Your class starts at 8am, it's 7:40am, what should you do?",
+                        new String[]{"Get up", "accept fate"}, new String[] {"You realized it's Sunday, there is no school", "Luckily you stayed home, it's Sunday!"}, new int[]{-10, 15}, new int[]{0, 0}, new int[]{-35, 0})
         );
 
         deck.add(
-                new EventCard(gp, "You are hungry and you wanted lunch, what lunch would you buy?", new String[]{"Hatdog and rice", "Beef and Vegetables"}, new String[]{"It was good, but it's not enough", "You where full!"}, new int[]{10, 5}, new int[]{0, 0}, new int[]{-20, -10})
+                new EventCard(gp, "You are hungry and you wanted lunch, what lunch would you buy?",
+                        new String[]{"Hatdog and rice", "Beef and Vegetables"}, new String[]{"It was good, but it's not enough", "You where full!"}, new int[]{10, 5}, new int[]{0, 0}, new int[]{-20, -10})
         );
 
         deck.add(
-                new EventCard(gp, "Maam Janice gave you a perfect score on your game project", null, null, new int[] {30}, new int[]{30}, new int[]{0})
+                new EventCard(gp, "Maam Janice gave you a perfect score on your game project", null,
+                        null, new int[] {30}, new int[]{30}, new int[]{0})
         );
 
         deck.add(
-                new EventCard(gp, "You and your friends are planning a getaway for the summer. Where will you go?", new String[]{"Binondo", "Star City"}, new String[]{"Hanggang Plano lang talaga, di na tuloy balak nyo", "Too broke to continue"}, new int[]{10, 10}, new int[]{0, 0}, new int[]{0, 0})
+                new EventCard(gp, "You and your friends are planning a getaway for the summer. Where will you go?",
+                        new String[]{"Binondo", "Star City"}, new String[]{"Hanggang Plano lang talaga, di na tuloy balak nyo",
+                        "Too broke to continue"}, new int[]{10, 10}, new int[]{0, 0}, new int[]{0, 0})
         );
 
         deck.add(
@@ -75,6 +81,13 @@ public class Chapter2Cards {
                         new int[]{-10, -5}, new int[]{10, 0}, new int[]{0, -50})
         );
 
+
+
+        deck.add(
+                new EventCard(gp,"Dropped Out:\n You failed a major prerequisite subject and have to retake it during the summer.",
+                        null,
+                        null,new int[]{-25}, new int[]{-15}, new int[]{-1000}));
+
         deck.add(
                 new EventCard(gp, "Class dismissed. Your friends invites you to go to a comshop, but you have a major quiz tomorrow.",
                         new String[]{"G! Laro", "Study"},
@@ -99,6 +112,49 @@ public class Chapter2Cards {
                                 "You refuse to front the cash and force everyone to calculate shares on the spot. The shop closes, and you submitted it late."},
                         new int[]{0, -10}, new int[]{40, -30}, new int[]{-750, 0})
         );
+
+        deck.add(
+                new EventCard(gp,"Di ka si Y/N:\n You zoned out imagining a fictional " +
+                        "romance with the campus crush, then you bumped into a post.", null,
+                        null,new int[]{-20}, new int[]{-10}, new int[]{0}));
+
+        deck.add(
+                new EventCard(gp,"\"Get 1/4 Sheet of Paper\" \nThe terror prof announces a Surprise Quiz!",
+                        null,
+                        null,new int[]{-20}, new int[]{0}, new int[]{0}));
+
+
+        deck.add(
+                new EventCard(gp,"Na-Post sa Freedom Wall!:\n Someone anonymously posted something good about you on the University Freedom Wall!",
+                        null,
+                        null,new int[]{20}, new int[]{40}, new int[]{0}));
+
+
+        deck.add(
+                new EventCard(gp, "You have a friend that is considered as a \"dumbbell\" or AKA pabigat sa group. Will you?",
+                        new String[]{"Ignore them", "Accept them"},
+                        new String[]{"They felt invisible but you had less weight to carry",
+                                "You still suffer from the consequences of having a \"pabigat\" friend"},
+                        new int[]{15, -15}, new int[]{10, -5}, new int[]{0, 0})
+        );
+
+        deck.add(
+                new EventCard(gp,"Sportsfest Week:\n No classes! Just cheering, eating street food, and watching sports.",
+                        null,
+                        null,new int[]{25}, new int[]{0}, new int[]{0}));
+
+        deck.add(
+                new EventCard(gp, "Ambag sa Groupwork:\n The deadline is tomorrow. Your groupmates have contributed zero research.",
+                        new String[]{"DIY", "Remove them"},
+                        new String[]{"You carry the entire team to a passing grade, but your soul is drained.",
+                                "You delete their names from the title page. You feel vindicated, but they hate you now."},
+                        new int[]{-10, 30}, new int[]{35, -10}, new int[]{0, 0})
+        );
+
+        deck.add(
+                new EventCard(gp,"Academic Burnout:\n You are tired. You question why you even chose this degree..",
+                        null,
+                        null,new int[]{-15}, new int[]{0}, new int[]{0}));
 
 
         return deck;
