@@ -367,23 +367,23 @@ public class PathLoader {
     public void loadChapter3Path() {
         pathPoints.clear();
         addPoint(13, 40); // Start
-        addPoint(13, 43);
+        addCareerPoint(13, 43);
         addPoint(16, 43);
         addCursePoint(18, 43);
         addPoint(20, 43);
         addPropertyPoint(22, 43);
         addPoint(22, 40);
-        addPoint(22, 38);
+        addDialoguePoint(22, 38, 0);
         addCursePoint(25, 38);
         addPoint(27, 38);
         addCursePoint(29, 38);
-        addScenarioPoint(29, 35, 4); //scenario point
+        addScenarioPoint(29, 35, 8); //scenario point
     }
 
     public void c3AddBranch_Left1() {
         addPoint(26, 35);
         addPropertyPoint(24, 35);
-        addPoint(24, 32);
+        addDialoguePoint(24, 32,1);//jumpscare
         addCursePoint(21, 32);
         addCursePoint(21, 32);
         addPoint(21, 29);
@@ -428,13 +428,13 @@ public class PathLoader {
         addPoint(46, 15);
         addPoint(48, 15);
         addPropertyPoint(50, 15);
-        addScenarioPoint(50, 18, 5);//adScenario
+        addScenarioPoint(50, 18, 9);//addScenario
     }
 
     public void c3AddBranch_Right2() {
         addPoint(53, 18);
         addPoint(53, 21);
-        addPoint(56, 21);
+        addDialoguePoint(56, 21,2);//Jo anona
         addCursePoint(58, 21);
         addPoint(58, 24);
         addPropertyPoint(55, 24);
@@ -460,12 +460,12 @@ public class PathLoader {
     private void c3SharedPath2() {
         addBabyPoint(48, 27); // wedding tile
         addPoint(48, 30);
-        addPoint(51, 30);
+        addDialoguePoint(51, 30, 3);//girlie
         addPoint(53, 30);
         addPoint(55, 30);//pink
         addPoint(55, 33);
         addPoint(55, 35);
-        addScenarioPoint(58, 35, 6);//ADD SCENARIO
+        addScenarioPoint(58, 35, 10);//ADD SCENARIO
     }
 
     public void c3AddBranch_Up1() {
@@ -504,7 +504,7 @@ public class PathLoader {
         addPoint(63, 45);
         addPropertyPoint(61, 45);
         addPoint(59, 45);
-        addScenarioPoint(57, 45, 7); //add scenario
+        addScenarioPoint(57, 45, 11); //add scenario
     }
 
     public void c3AddBranch_Up2() {
