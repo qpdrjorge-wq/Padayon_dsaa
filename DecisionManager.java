@@ -24,10 +24,11 @@ public class DecisionManager {
                 new CriticalDecision(gp, "Choose", new String[]{"Up", "Down"}),
                 new CriticalDecision(gp, "A random person comes knocking on you door asking you " +
                         "to join their \"peace organization\". ", new String[]{"Join them ", "Ignore them"}),
-                new CriticalDecision(gp, "A breadwinner's dillema of choosing from either:", new String[]{"Love life", "Career"}),
-                new CriticalDecision(gp, "Your rapidly urbanizing hometown is holding a mayoral election. The outcome will permanently reshape the city’s economy and your own daily life. Do you vote for: ", 
-                                     new String[]{"Sarah Villaluna, a local businesswoman and capitalist", "Sheila Garcia, a humanitarian lawyer"}),
-                new CriticalDecision(gp, "Your immigration agency calls—your working visa for Canada was finally approved. Do you:", new String[]{"Leave the Philippines", "Stay in the Philippines"}),
+                new CriticalDecision(gp, "A breadwinner's dillema of choosing from either:", new String[]{"Career", "Love life"}),
+                new CriticalDecision(gp, "Your rapidly urbanizing hometown is holding a mayoral election. The outcome will permanently reshape the city’s economy and your own daily life. Do you vote for: ",
+                        new String[]{"Sarah Villarluna, a humanitarian lawyer", "Sheila Garcia, a local businesswoman and capitalist"}),
+                new CriticalDecision(gp, "Your immigration agency calls—your working visa for Canada was finally approved. Do you:",
+                        new String[]{"Leave the Philippines", "Stay in the Philippines"}),
 
         };
     }
