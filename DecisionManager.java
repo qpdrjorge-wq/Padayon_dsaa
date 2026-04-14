@@ -21,13 +21,14 @@ public class DecisionManager {
                 new CriticalDecision(gp, "You don’t know much people in college. How would you handle final projects?", new String[]{"Have Courage", "Do it Solo"}),
                 new CriticalDecision(gp, "Finals week is approaching! You’ve been procrastinating for a while and you’re nervous for the exams", new String[]{"Study", "Cram it"}),
                 new CriticalDecision(gp, "Oh no! Your professor asked you to present the current lesson in class this week.", new String[]{"Absent", "Discuss"}),
-                new CriticalDecision(gp, "Choose", new String[]{"Up", "Down"}),
                 new CriticalDecision(gp, "A random person comes knocking on you door asking you " +
                         "to join their \"peace organization\". ", new String[]{"Join them ", "Ignore them"}),
                 new CriticalDecision(gp, "A breadwinner's dillema of choosing from either:", new String[]{"Career", "Love life"}),
-                new CriticalDecision(gp, "Your rapidly urbanizing hometown is holding a mayoral election. The outcome will permanently reshape the city’s economy and your own daily life. Do you vote for: ",
-                        new String[]{"Sarah Villarluna, a humanitarian lawyer", "Sheila Garcia, a local businesswoman and capitalist"}),
-                new CriticalDecision(gp, "Your immigration agency calls—your working visa for Canada was finally approved. Do you:",
+                new CriticalDecision(gp, "Your rapidly urbanizing hometown is holding a mayoral election. " +
+                        "\nThe outcome will permanently reshape the city’s " +
+                        "\neconomy and your own daily life. Do you vote for: ",
+                        new String[]{"Cassie a humanitarian lawyer", "Sheila A business tycoon capitalist"}),
+                new CriticalDecision(gp, "Your immigration agency calls—your working visa for\n Canada was finally approved. Do you:",
                         new String[]{"Leave the Philippines", "Stay in the Philippines"}),
 
         };
@@ -88,33 +89,26 @@ public class DecisionManager {
                 break;
             case 7:
                 if (choiceIndex == 0){
-                    player.getPathLoader().c4AddBranch_Up1();
-                } else {
-                    player.getPathLoader().c4AddBranch_Down1();
-                }
-                break;
-            case 8:
-                if (choiceIndex == 0){
                     player.getPathLoader().c3AddBranch_Left1();
                 } else {
                     player.getPathLoader().c3AddBranch_Right1();
                 }
                 break;
-            case 9:
+            case 8:
                 if (choiceIndex == 0){
                     player.getPathLoader().c3AddBranch_Left2();
                 } else {
                     player.getPathLoader().c3AddBranch_Right2();
                 }
                 break;
-            case 10:
+            case 9:
                 if (choiceIndex == 0){
                     player.getPathLoader().c3AddBranch_Up1();
                 } else {
                     player.getPathLoader().c3AddBranch_Down1();
                 }
                 break;
-            case 11:
+            case 10:
                 if (choiceIndex == 0){
                     player.getPathLoader().c3AddBranch_Up2();
                 } else {
