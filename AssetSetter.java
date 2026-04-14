@@ -64,8 +64,8 @@ public class AssetSetter {
         gp.npc[1].worldY = 31 * gp.tileSize;
 
         gp.npc[2] = new NPC_Jo(gp);
-        gp.npc[2].worldX = 15 * gp.tileSize;   // ← pick your tile coordinates
-        gp.npc[2].worldY = 42 * gp.tileSize;
+        gp.npc[2].worldX = 56 * gp.tileSize;   // ← pick your tile coordinates
+        gp.npc[2].worldY = 20 * gp.tileSize;
 
         gp.npc[3] = new NPC_Girlie(gp);
         gp.npc[3].worldX = 51 * gp.tileSize;
