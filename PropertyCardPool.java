@@ -118,8 +118,42 @@ public class PropertyCardPool {
 
         pool.add(new PropertyCard(gp,
                 "Rolls-Royce ni Sarah",
-                "Gaming/cooking content. 5,000 subscribers and counting. Brand deals incoming.",
+                "Such an expensive car. I wonder whose wallet did it come from? Spoiler alert, mula ito sa kaban ng bayan",
                 5000, 0));
+
+        pool.add(new PropertyCard(gp,
+                "Tumbler",
+                "Your trusty steel bottle in this hot weather.",
+                5000, 0));
+
+        pool.add(new PropertyCard(gp,
+                "Nespresso Machine",
+                "Corporate worker's fuel. You save money on Starbucks, but the pods are making you broke.",
+                550, 0));
+
+        pool.add(new PropertyCard(gp,
+                "Katinko Roll-on",
+                "Directly applied to the forehead during stressful Zoom calls with the toxic boss.",
+                80, 0));
+
+        pool.add(new PropertyCard(gp,
+                "St. Peter Life Plan",
+                "The ultimate adulting flex. Ready ka na for the afterlife, at least bayad na.",
+                900, 0));
+
+        pool.add(new PropertyCard(gp,
+                "1-Year Gym Membership",
+                "Binayaran mo in advance para ma-motivate ka pero tatlong beses ka lang pumunta. Sayang pera.",
+                1500, 0));
+
+        pool.add(new PropertyCard(gp,
+                "Beep Card (Fully Loaded)",
+                "Loaded with ₱1,000. Ang yaman mo tingnan pag-tap sa LRT, pero ubos din agad kase RTO ka araw-araw.",
+                1000, 0));
+
+
+
+
 
         return pool;
     }
