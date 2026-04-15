@@ -188,11 +188,11 @@ public class PathLoader {
         return null;
     }
 
-    public void loadChapter2Path() {
+        public void loadChapter2Path() {
         pathPoints.clear();
 
         addPoint(6, 13);
-        addPoint(8, 13);
+        addPropertyPoint(8, 13);
         addPoint(10, 13);
         addPoint(12, 13);
         addScenarioPoint(14, 13, 3); //addScenario
@@ -202,14 +202,14 @@ public class PathLoader {
         addPoint(14,10);
         addBuffPoint(17,10, new Buff(10, 15, 0, 4, "Maam Janice is proud of your decision, keep it up \n Pinasa ka ni maam Janice sa Project\n +10 happiness, +15 reputation for 4 turns"));
         addPoint(19,10);
-        addPoint(21,10);
+        addPropertyPoint(21,10);
         addPoint(23,10);
         addPoint(25,10);
         c2SharedPath1();
     }
 
     public void c2AddBranch_Down() {
-        addPoint(14,16);
+        addPropertyPoint(14,16);
         addDialoguePoint(17,16,1); //witch
         addPoint(19,16);
         addPoint(21,16);
@@ -220,7 +220,7 @@ public class PathLoader {
 
     private void c2SharedPath1() {
         addCareerPoint(25,13);
-        addPoint(28,13);
+        addPropertyPoint(28,13);
         addPoint(30,13);
         addPoint(32,13);
         addPoint(32,16);
@@ -233,12 +233,12 @@ public class PathLoader {
         addPoint(39,13);
         addPoint(42,13);
         addPoint(44,13);
-        addPoint(46,13);
+        addPropertyPoint(46,13);
         c2SharedPath2();
     }
 
     public void c2AddBranch_Down2() {
-        addPoint(39,19);
+        addPropertyPoint(39,19);
         addPoint(42,19);
         addPoint(44,19);
         addPoint(46,19);
@@ -250,31 +250,31 @@ public class PathLoader {
         addPoint(49,16);
         addPoint(51,16);
         addPoint(53,16);
-        addPoint(55,16);
+        addPropertyPoint(55,16);
         addPoint(57,16);
         addPoint(59,16);
         addPoint(59,13);
         addPoint(62,13);
-        addPoint(64,13);
+        addPropertyPoint(64,13);
         addPoint(64,10);
-        addPoint(67,10);
+        addPropertyPoint(67,10);
         addPoint(69,10);
         addPoint(69,13);
         addPoint(72,13);
         addPoint(72,16);
         addPoint(72,18);
-        addPoint(72,20);
+        addPropertyPoint(72,20); //18
         addPoint(72,22);
         addPoint(72,24);
         addPoint(72,26);
         addPoint(72,28);
         addPoint(69,28);
         addPoint(69,31);
-        addPoint(66,31);
+        addPropertyPoint(66,31); //25
         addPoint(64,31);
         addPoint(64,28);
         addPoint(61,28);
-        addPoint(59,28);
+        addPropertyPoint(59,28);//29
         addPoint(59,25);
         addPoint(56,25);
         addPoint(54,25);
@@ -282,7 +282,7 @@ public class PathLoader {
         addPoint(50,25);
         addPoint(48,25);
         addPoint(46,25);
-        addPoint(44,25);
+        addPropertyPoint(44,25);
         addScenarioPoint(42,25, 2); // addScenario
     }
 
@@ -290,28 +290,28 @@ public class PathLoader {
         addPoint(42,22);
         addPoint(39,22);
         addPoint(37,22);
-        addPoint(35,22);
+        addPropertyPoint(35,22);
         addPoint(35,19);
         addPoint(32,19);
         addPoint(30,19);
         addPoint(28,19);
         addPoint(28,22);
         addPoint(25,22);
-        addPoint(23,22);
+        addPropertyPoint(23,22);
         addPoint(21,22);
         c2SharedPath3();
     }
 
     public void c2AddBranch_Down3() {
         addPoint(42,28);
-        addPoint(39,28);
+        addPropertyPoint(39,28);
         addPoint(37,28);
         addPoint(35,28);
         addPoint(35,31);
         addPoint(32,31);
         addPoint(30,31);
         addPoint(28,31);
-        addPoint(28,28);
+        addPropertyPoint(28,28);
         addPoint(25,28);
         addPoint(23,28);
         addPoint(21,28);
@@ -323,7 +323,7 @@ public class PathLoader {
         addPoint(18,25);
         addPoint(16,25);
         addPoint(14,25);
-        addPoint(12,25);
+        addPropertyPoint(12,25);
         addPoint(12,28);
         addPoint(12,30);
         addPoint(12,32);
@@ -334,7 +334,7 @@ public class PathLoader {
     public void c2AddBranch_Right() {
         addPoint(15,36);
         addPoint(17,36);
-        addPoint(17,39);
+        addPropertyPoint(17,39);
         addPoint(17,41);
         addPoint(17,43);
         addPoint(14,43);
@@ -345,7 +345,7 @@ public class PathLoader {
         addPoint(9,38);
         addPoint(7,38);
         addPoint(7,39);
-        addPoint(7,41);
+        addPropertyPoint(7,41);
         addPoint(7,43);
         addPoint(10,43);
         c2SharedPath4();
@@ -358,7 +358,7 @@ public class PathLoader {
         addPoint(15,48);
         addPoint(17,48);
         addPoint(19,48);
-        addPoint(21,48);
+        addPropertyPoint(21,48);
         addPoint(21,51);
         addEndPoint(21,53);
     }
