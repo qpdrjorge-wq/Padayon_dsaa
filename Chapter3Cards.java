@@ -12,14 +12,14 @@ public class  Chapter3Cards {
         List<EventCard> deck = new ArrayList<>(); //happiness, reputation, money
 
         deck.add(
-                new EventCard(gp, "You are the breadwinner of your family, pay all bills and expenses" +
-                        "\n Ano ba yan ilang taon ka pang nag-aral ng math, subtraction lang pala yung magagamit mo...",
+                new EventCard(gp, "You are the breadwinner of your family, pay all bills and expenses\n" +
+                        "\n\n Ano ba yan ilang taon ka pang nag-aral ng math, subtraction lang pala yung magagamit mo...",
                         null, new String[] {},
                         new int[]{0}, new int[]{0}, new int[]{-2500}));
 
         deck.add(
                 new EventCard(gp, "You brought your lunch to work, but you left your mother's favorite tupperware in the office fridge. It is now missing \n Do you:",
-                        new String[]{"Confess your sin", "Bili agad ng bago "},
+                        new String[]{"Confess", "Buy a new one"},
                         new String[]{"She gave you a full 1-hr sermon about responsibility and even made you buy her a new one ",
                                 "You bought the wrong shade of pink but it's fine since she hasn't noticed it.... not yet"},
                         new int[]{-30, 0}, new int[]{0, 0}, new int[]{-650, -650})
@@ -28,8 +28,8 @@ public class  Chapter3Cards {
         deck.add(
                 new EventCard(gp, "You've been a minimum wage worker for three year already in your company " +
                         "and haven't been given a raise during ever since. Ano ang gagawin mo?",
-                        new String[]{"Hakutin ang pantry supplies", "Mag-reklamo sa HR"},
-                        new String[]{"You stuffed your bag with 2 months worth of 3-in-1 coffee, tissue, and toothpicks. Dasurb ",
+                        new String[]{"Revenge", "File a complaint"},
+                        new String[]{"Hinakot mo ang buong pantry and stuffed your bag with 2 months worth of 3-in-1 coffee, tissue, and toothpicks. Dasurb ",
                                 "Your complaint was \"duly noted\"... meaning it was noted, but definitely not heard."},
                         new int[]{50, -60}, new int[]{0, -10}, new int[]{500, 0})
         );
@@ -44,7 +44,7 @@ public class  Chapter3Cards {
 
         deck.add(
                 new EventCard(gp, "An officemate nudges you and told you \"Mukhang model yung boss natin 'no?\"\n",
-                        new String[]{"\"Oo, crush ko nga yun eh..\"", "Dedma"},
+                        new String[]{"\"Crush koyon..\"", "Dedma"},
                         new String[]{"Your comment immediately spreads to the whole department. Teh, anong crush-crush, trentahin ka na oh!",
                                 "Ded is ma sila sayo. You completely avoided the office gossip trap and kept your professional image spotless."},
                         new int[]{0, 0}, new int[]{-20, 20}, new int[]{0, 0})
@@ -59,8 +59,7 @@ public class  Chapter3Cards {
         );
 
         deck.add(
-                new EventCard(gp, "Adulting Reality: Tax Deduction\n" +
-                        "\nAdulting ka na! You looked at your payslip and realized mas malaki pa yung kaltas ng tax, SSS, at PhilHealth kesa sa naiuwi mong sahod. Welcome to the real world!\n ",
+                new EventCard(gp, "Adulting Reality: Tax Deduction\n You looked at your payslip and realized mas malaki pa yung kaltas ng tax, SSS, at PhilHealth kesa sa naiuwi mong sahod. Welcome to the real world! ",
                         null, null, new int[]{-40}, new int[]{0}, new int[]{-2500}));
 
 
@@ -103,7 +102,7 @@ public class  Chapter3Cards {
         deck.add(
                 new EventCard(gp, "Someone from another department whom you are not close with suddenly drops " +
                         "a highly personal, insulting \"joke\" about you in front of everyone.",
-                        new String[]{"Be \"understanding\"", "Be passive-aggressive"},
+                        new String[]{"Below the belt", "Confront"},
                         new String[]{"\"Ganyan talaga siguro kapag lumaking kulang sa aruga...\" \nYou chose violence, and it felt amazing",
                                 "\"Wag ako ante, 7-eleven tayo, never tayong close..\""},
                         new int[]{15, 15}, new int[]{0, 0}, new int[]{0, 0})
@@ -117,6 +116,22 @@ public class  Chapter3Cards {
                         new int[]{-20, 20}, new int[]{0, 0}, new int[]{-280, 0})
         );
 
+        deck.add(
+                new EventCard(gp, "Your college friend, Cassie, is getting married in Boracay and they invited you to be " +
+                        "part of the entourage, meaning you pay for your own flight and hotel.",
+                        new String[]{"Gora", "Pass Muna"},
+                        new String[]{"You maxed out your credit card, but had a really good time",
+                                "You passed the invitation. You saved money, but nagtampo si Cassie sa'yo"},
+                        new int[]{100, -20}, new int[]{0, -30}, new int[]{-2000, 0})
+        );
+
+        deck.add(
+                new EventCard(gp, "Your coworker just had a baby and randomly listed you as a Godparent without asking you first.",
+                        new String[]{"Accept", "I-seen-zone"},
+                        new String[]{"You buy a high-end stroller and officially enter your Tito/Tita era",
+                                "\"'Di ko pa nga nakikita baby niyan eh..\""},
+                        new int[]{10, 0}, new int[]{40, -20}, new int[]{-600, 0})
+        );
 
         deck.add(
                 new EventCard(gp, "Pay your taxes first!",
