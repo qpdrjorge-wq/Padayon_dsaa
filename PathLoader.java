@@ -188,7 +188,7 @@ public class PathLoader {
         return null;
     }
 
-    public void loadChapter2Path() {
+        public void loadChapter2Path() {
         pathPoints.clear();
 
         addPoint(6, 13);
@@ -342,8 +342,8 @@ public class PathLoader {
     }
 
     public void c2AddBranch_Left() {
-        addPoint(9,38);
-        addPoint(7,38);
+        addPoint(9,36);
+        addPoint(7,36);
         addPoint(7,39);
         addPropertyPoint(7,41);
         addPoint(7,43);
